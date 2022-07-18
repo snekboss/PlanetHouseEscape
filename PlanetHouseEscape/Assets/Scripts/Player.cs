@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
     bool pickupObjectCoroutineIsRunning;
     bool dropObjectCoroutineIsRunning;
 
-    public LayerMask defaultLayer = LayerMask.NameToLayer("Default"); 
+    public LayerMask defaultLayer;
     #endregion
 
     #region Interaction related fields
@@ -347,6 +347,8 @@ public class Player : MonoBehaviour
     /// </summary>
     void Start()
     {
+        defaultLayer = 1 << LayerMask.NameToLayer("Default"); // Notice the bitshift. NameToLayer returns the bit index...
+
         playerRbody = gameObject.AddComponent<Rigidbody>();
         playerRbody.mass = 70.0f;
         playerRbody.constraints = RigidbodyConstraints.FreezeRotation;
