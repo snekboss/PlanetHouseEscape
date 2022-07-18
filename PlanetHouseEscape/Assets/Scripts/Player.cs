@@ -2,11 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+/// <summary>
+/// The game object to which this script is attached is deemed as the sole player of the puzzle game scene,
+/// and this class handles the movement of said player.
+/// </summary>
 public class Player : MonoBehaviour
 {
-    public LayerMask defaultLayer;
-
-    // Movement related
+    #region Player movement related fields
+    // Player movement related fields
     [Range(0f, 10f)]
     public float movementSpeed = 5.0f;
     [Range(0f, 10f)]
@@ -18,15 +21,19 @@ public class Player : MonoBehaviour
     Rigidbody playerRbody;
     Collider playerCollider;
     Vector3 playerMoveDir = Vector3.zero;
-    public bool isGrounded;
+    public bool isGrounded; 
+    #endregion
 
-    // Rotation related
+    #region Player rotation related fields
+    // Player rotation related fields
     Transform eyes;
     float playerYaw;
     float eyesPitch;
-    float eyesPitchThreshold = 89.0f;
+    float eyesPitchThreshold = 89.0f; 
+    #endregion
 
-    // Pickup related
+    #region Pickup related fields
+    // Pickup related fields
     [Range(0.1f, 10.0f)]
     public float pickupRayLength = 3.5f;
 
@@ -53,22 +60,35 @@ public class Player : MonoBehaviour
     bool pickupObjectCoroutineIsRunning;
     bool dropObjectCoroutineIsRunning;
 
-    // Inputs related
+    public LayerMask defaultLayer = LayerMask.NameToLayer("Default"); 
+    #endregion
+
+    #region Interaction related fields
+    // Player inputs related fields
     bool isPressedLMB;
     bool isHoldingRMB;
     bool isPressedSpace;
 
-    // Interact related
-    bool isHoldingE;
+    // Interact related fields
     bool isPressedE;
 
     RaycastHit hitInfo;
-    bool raycastHitResult;
+    bool raycastHitResult; 
+    #endregion
 
+    #region Tags related fields
+    // Tags related fields
     string tagPickup = "Pickup";
     string tagInteractable = "Interactable";
+    string tagEscapeKey = "EscapeKey"; // The tag of the key game object which lets the player escape the house. 
+    #endregion
 
-    void IfPickupObjectIsNull()
+    /// <summary>
+    /// If the pickup object is null, then the associated rigidbody and collider references will also be set to null by this method.
+    /// This acts as a countermeasure to potential bugs that might be caused by the use of coroutines for example.
+    /// See <see cref="PickupObjectCoroutine"/> and <see cref="DropObjectCoroutine"/>.
+    /// </summary>
+    void DoCleanupIfPickupObjectIsNull()
     {
         if (pickupObject == null)
         {
@@ -76,9 +96,11 @@ public class Player : MonoBehaviour
             pickupCollider = null;
         }
     }
+
     /// <summary>
     /// Casts a ray into the scene, and stores the result in raycastHitResult.
     /// The result can later be used for dealing with interactable or pickup objects.
+    /// See <see cref="HandlePickingUp"/> and <see cref="HandleInteract"/>.
     /// </summary>
     void HandleRaycast()
     {
@@ -88,6 +110,8 @@ public class Player : MonoBehaviour
 
     /// <summary>
     /// Check for inputs which involve interaction with the scene, and stores them in fields for easier readability later.
+    /// <see cref="HandleMovement"/>, <see cref="HandlePickingUp"/>, <see cref="HandleControlPickupObject"/>,
+    /// <see cref="HandleInteract"/>.
     /// </summary>
     void ReadInteractionInputs()
     {
@@ -121,6 +145,8 @@ public class Player : MonoBehaviour
 
     /// <summary>
     /// Checks and handles inputs regarding players movement in the scene.
+    /// The input checking for jumps should have been done in a separate method.
+    /// See <see cref="ReadInteractionInputs"/>.
     /// </summary>
     void HandleMovement()
     {
@@ -138,6 +164,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the picking up of objects with the use of previously checked input.
+    /// See <see cref="ReadInteractionInputs"/>.
+    /// </summary>
     void HandlePickingUp()
     {
         pickupCooldownTimer += Time.deltaTime;
@@ -161,7 +191,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    void ControlPickupObject()
+    /// <summary>
+    /// Handles the inputs for controlling a pickup object which is currently being held.
+    /// The object can be dropped, thrown, or zoomed in/out.
+    /// See See <see cref="ReadInteractionInputs"/>.
+    /// </summary>
+    void HandleControlPickupObject()
     {
         if (pickupObject == null)
         {
@@ -188,10 +223,17 @@ public class Player : MonoBehaviour
 
         if (Vector3.Distance(eyes.position, pickupRbody.position) > pickupRayLength && !dropObjectCoroutineIsRunning)
         {
+            // Drop if the object ends up being too far from the player's reach.
             StartCoroutine("DropObjectCoroutine", false);
         }
     }
 
+    /// <summary>
+    /// Handles the inputs for interacting with the scene, such as opening doors.
+    /// If the player is holding an object, then interactions with the scene won't work.
+    /// For example, the player cannot open doors while holding an object.
+    /// See <see cref="ReadInteractionInputs"/>.
+    /// </summary>
     void HandleInteract()
     {
         if (pickupObject != null || raycastHitResult == false)
@@ -211,6 +253,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The player keeps track of the in-game time. TODO: Create a separate game object for this?... Seriosuly... ugh...
+    /// </summary>
+    void IncrementTime()
+    {
+        StaticVariables.time += Time.deltaTime * Time.timeScale;
+    }
+
+    /// <summary>
+    /// A method which is meant to be invoked as a Unity coroutine, called by <see cref="MonoBehaviour.StartCoroutine(string, object)"/>.
+    /// Handles variable assignments which are required for picking up an object.
+    /// Picking up an object over several frames helps with the intended behavior of moving the object as the player moves.
+    /// </summary>
+    /// <param name="hitInfo">hitInfo is of type RaycastHit. It is used to learn information about the pickup object.</param>
+    /// <returns>Returns some kind of yield return IEnumerator magic thing made by Unity.</returns>
     IEnumerator PickupObjectCoroutine(object hitInfo)
     {
         pickupObjectCoroutineIsRunning = true;
@@ -236,6 +293,13 @@ public class Player : MonoBehaviour
         pickupObjectCoroutineIsRunning = false;
     }
 
+    /// <summary>
+    /// A method which is meant to be invoked as a Unity coroutine, called by <see cref="MonoBehaviour.StartCoroutine(string, object)"/>.
+    /// Handles variable assignments which are required for dropping/throwin an object.
+    /// Dropping/throwing an object over several frames helps with the intended behavior of moving the object as the player moves.
+    /// </summary>
+    /// <param name="hitInfo">isThrown is of type bool. If true, the pickup object will be thrown. If false, it will be dropped.</param>
+    /// <returns>Returns some kind of yield return IEnumerator magic thing made by Unity.</returns>
     IEnumerator DropObjectCoroutine(object isThrown)
     {
         dropObjectCoroutineIsRunning = true;
@@ -267,16 +331,16 @@ public class Player : MonoBehaviour
         dropObjectCoroutineIsRunning = false;
     }
 
-
+    /// <summary>
+    /// Checks whether the player is currently holding the key to escape the house in his hands.
+    /// It will be used by the exit door of the house, which will immediately finish the game if the key collides with the door.
+    /// </summary>
+    /// <returns>Returns true if the player is currently holding the key to escape the house in his hands; false if not.</returns>
     public bool IsHoldingTheKey()
     {
-        return pickupObject != null && pickupObject.name == "KeyContainer";
+        return pickupObject != null && pickupObject.tag == tagEscapeKey;
     }
 
-    void IncrementTime()
-    {
-        StaticVariables.time += Time.deltaTime * Time.timeScale;
-    }
 
     /// <summary>
     /// Unity's Start method. Start is called before the first frame update.
@@ -298,13 +362,13 @@ public class Player : MonoBehaviour
     /// </summary>
     void Update()
     {
-        IfPickupObjectIsNull();
+        DoCleanupIfPickupObjectIsNull();
         HandleRaycast();
         ReadInteractionInputs();
         HandleRotation();
         HandleMovement();
         HandlePickingUp();
-        ControlPickupObject();
+        HandleControlPickupObject();
         HandleInteract();
 
         IncrementTime();
