@@ -50,8 +50,9 @@ public class Player : MonoBehaviour
     GameObject pickupObject;
     Rigidbody pickupRbody;
     Collider pickupCollider;
-    bool pickupObjectCoroutineIsRunning;
-    bool dropObjectCoroutineIsRunning;
+
+    bool pickupWillBeDropped = false;
+    bool pickupWillBeThrown = false;
 
     // Inputs related
     bool isPressedLMB;
@@ -59,7 +60,6 @@ public class Player : MonoBehaviour
     bool isPressedSpace;
 
     // Interact related
-    bool isHoldingE;
     bool isPressedE;
 
     RaycastHit hitInfo;
@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
 
     string tagPickup = "Pickup";
     string tagInteractable = "Interactable";
+    string tagEscapeKey = "EscapeKey";
 
     void IfPickupObjectIsNull()
     {
@@ -154,44 +155,81 @@ public class Player : MonoBehaviour
                 return;
             }
 
-            if (!pickupObjectCoroutineIsRunning)
-            {
-                StartCoroutine("PickupObjectCoroutine", (object)hitInfo);
-            }
+            RaycastHit hInfo = (RaycastHit)hitInfo;
+
+            // Pick up the object.
+            pickupObject = hInfo.transform.gameObject;
+            pickupRbody = pickupObject.GetComponent<Rigidbody>();
+            pickupCollider = pickupObject.GetComponent<Collider>();
+
+            Physics.IgnoreCollision(pickupCollider, playerCollider, true);
+            pickupRbody.useGravity = false;
+            pickupRbody.constraints = RigidbodyConstraints.FreezeRotation;
+            pickupZoomCurValue = pickupZoomInitialValue;
         }
+    }
+
+    /// <summary>
+    /// Enables gravity and response to collisions for the pickup object.
+    /// After calling this method, it is strongly recommended to remove the pickup object from the player's control
+    /// by setting the necessary variables to null.
+    /// </summary>
+    void EnablePhysicsForPickupObject()
+    {
+        Physics.IgnoreCollision(pickupCollider, playerCollider, false);
+        pickupRbody.constraints = RigidbodyConstraints.None;
+        pickupRbody.useGravity = true;
+    }
+
+    /// <summary>
+    /// Set the necessary variables to null and thus remove the player's control over the pickup object.
+    /// Before calling this method, it is strongly recommended to enable physics for the pickup object.
+    /// </summary>
+    void DetachPickupObject()
+    {
+        pickupObject = null;
+        pickupRbody = null;
+        pickupCollider = null;
     }
 
     void ControlPickupObject()
     {
-        if (pickupObject == null)
+        if (pickupObject == null || pickupWillBeThrown == true || pickupWillBeDropped == true)
         {
             return;
         }
+
+        pickupRbody.velocity = Vector3.zero;
+        pickupRbody.angularVelocity = Vector3.zero;
 
         pickupZoomCurValue += Input.mouseScrollDelta.y * Time.deltaTime * pickupZoomSpeed;
         pickupZoomCurValue = Mathf.Clamp(pickupZoomCurValue, pickupZoomMin, pickupZoomMax);
 
         if (!isHoldingRMB)
         {
-            if (!dropObjectCoroutineIsRunning)
-            {
-                StartCoroutine("DropObjectCoroutine", false);
-            }
+            EnablePhysicsForPickupObject();
+            pickupWillBeDropped = true;
+            //DropPickupObject();
         }
         else if (isHoldingRMB && isPressedLMB)
         {
-            if (!dropObjectCoroutineIsRunning)
-            {
-                StartCoroutine("DropObjectCoroutine", true);
-            }
+            pickupWillBeThrown = true;
+            EnablePhysicsForPickupObject();
+            //ThrowPickupObject();
         }
-
-        if (Vector3.Distance(eyes.position, pickupRbody.position) > pickupRayLength && !dropObjectCoroutineIsRunning)
+        else if (Vector3.Distance(eyes.position, pickupRbody.position) > pickupRayLength)
         {
-            StartCoroutine("DropObjectCoroutine", false);
+            pickupWillBeDropped = true;
+            EnablePhysicsForPickupObject();
+            //DropPickupObject();
         }
     }
 
+    /// <summary>
+    /// Checks and handles inputs for interacting with the scene, such as opening doors.
+    /// If the player is holding an object, then interactions with the scene won't work.
+    /// For example, the player cannot open doors while holding an object.
+    /// </summary>
     void HandleInteract()
     {
         if (pickupObject != null || raycastHitResult == false)
@@ -211,68 +249,19 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator PickupObjectCoroutine(object hitInfo)
-    {
-        pickupObjectCoroutineIsRunning = true;
-
-        RaycastHit hInfo = (RaycastHit)hitInfo;
-        // Pick up the object.
-        pickupObject = hInfo.transform.gameObject;
-        pickupRbody = pickupObject.GetComponent<Rigidbody>();
-        pickupCollider = pickupObject.GetComponent<Collider>();
-        Physics.IgnoreCollision(pickupCollider, playerCollider, true);
-        pickupZoomCurValue = pickupZoomInitialValue;
-
-        // Disable physics for this frame. The object will go through walls for this frame.
-        pickupRbody.isKinematic = true;
-        pickupRbody.constraints = RigidbodyConstraints.FreezeAll;
-        yield return new WaitForFixedUpdate(); // Just in case (like in DropObjectCoroutine)
-
-        // Re-enable physics in the next frame. The object will not go through walls.
-        pickupRbody.isKinematic = false;
-        pickupRbody.useGravity = false;
-        pickupRbody.constraints = RigidbodyConstraints.None;
-
-        pickupObjectCoroutineIsRunning = false;
-    }
-
-    IEnumerator DropObjectCoroutine(object isThrown)
-    {
-        dropObjectCoroutineIsRunning = true;
-
-        bool throwIt = (bool)isThrown;
-
-        // Disable physics for this frame. This will "reset" the rigidbody.
-        pickupRbody.constraints = RigidbodyConstraints.FreezeAll;
-        pickupRbody.isKinematic = true;
-        yield return new WaitForFixedUpdate(); // None of this works unless I WaitForFixedUpdate()
-
-        // Re-enable physics in the next frame. The object will respond to player's movement.
-        pickupRbody.constraints = RigidbodyConstraints.None;
-        pickupRbody.isKinematic = false;
-
-        pickupRbody.useGravity = true;
-        Physics.IgnoreCollision(pickupCollider, playerCollider, false);
-
-        if (throwIt)
-        {
-            pickupRbody.AddForce(eyes.forward * pickupThrowPower, ForceMode.VelocityChange);
-            pickupCooldownTimer = 0;
-        }
-
-        pickupObject = null;
-        pickupRbody = null;
-        pickupCollider = null;
-
-        dropObjectCoroutineIsRunning = false;
-    }
-
-
+    /// <summary>
+    /// Checks whether the player is currently holding the key to escape the house in his hands.
+    /// It will be used by the exit door of the house, which will immediately finish the game if the key collides with the door.
+    /// </summary>
+    /// <returns>Returns true if the player is currently holding the key to escape the house in his hands; false if not.</returns>
     public bool IsHoldingTheKey()
     {
-        return pickupObject != null && pickupObject.name == "KeyContainer";
+        return pickupObject != null && pickupObject.tag == tagEscapeKey;
     }
 
+    /// <summary>
+    /// The player keeps track of the in-game time. TODO: Create a separate game object for this?... Seriosuly... ugh...
+    /// </summary>
     void IncrementTime()
     {
         StaticVariables.time += Time.deltaTime * Time.timeScale;
@@ -322,6 +311,21 @@ public class Player : MonoBehaviour
             Vector3 pickupDestinationPos = eyes.position + eyes.forward * pickupZoomCurValue;
             Vector3 pickupLerpedPos = Vector3.Lerp(pickupObject.transform.position, pickupDestinationPos, pickupLerpSpeed);
             pickupRbody.MovePosition(pickupLerpedPos);
+
+            if (pickupWillBeThrown)
+            {
+                pickupRbody.AddForce(eyes.forward * pickupThrowPower, ForceMode.VelocityChange);
+                DetachPickupObject();
+                pickupCooldownTimer = 0; // So that the player doesn't grab the object mid-air after being thrown.
+
+            }
+            else if (pickupWillBeDropped)
+            {
+                DetachPickupObject();
+            }
+
+            pickupWillBeDropped = false;
+            pickupWillBeThrown = false;
         }
     }
 }
