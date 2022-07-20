@@ -1,20 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class which designates the attached object as a LetterEater machine.
+/// The machine eats letters. If the sequence of letters were correct, it spits out a planet as reward.
+/// </summary>
 public class LetterEater : MonoBehaviour
 {
     public string password;
-    public string eatenLetters;
-    public Transform spawnLetterInit;
-    public Transform spawnReward;
+    public string eatenLetters; // must match the password to get the reward
+    public Transform spawnLetterInit; // Initial spawn point for the letters
+    public Transform spawnReward; // Spawn point of the reward
     public Planet rewardPlanet;
-    public static List<Letter> alphabetResource; // make this private after debugging
+    static List<Letter> alphabetResource = new List<Letter>();
 
 
+    /// <summary>
+    /// Load alphabet prefabs into memory via lazy initialization.
+    /// </summary>
     static void LoadAlphabetResource()
     {
-        if (alphabetResource != null)
+        if (alphabetResource.Count > 0)
         {
             return;
         }
@@ -34,7 +40,10 @@ public class LetterEater : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Unity's OnTriggerEnter method. This one in particular is used to eat Letters.
+    /// </summary>
+    /// <param name="other">The other Collider instance which entered the trigger zone.</param>
     private void OnTriggerEnter(Collider other)
     {
         Letter L = other.GetComponent<Letter>();
