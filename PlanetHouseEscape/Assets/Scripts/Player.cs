@@ -21,15 +21,17 @@ public class Player : MonoBehaviour
     Rigidbody playerRbody;
     Collider playerCollider;
     Vector3 playerMoveDir = Vector3.zero;
-    public bool isGrounded; 
+    public bool isGrounded;
     #endregion
 
-    #region Player rotation related fields
-    // Player rotation related fields
+    #region Player and pickup object rotation related fields
+    // Player and pickup object rotation related fields
     Transform eyes;
     float playerYaw;
     float eyesPitch;
-    float eyesPitchThreshold = 89.0f; 
+    float eyesPitchThreshold = 89.0f;
+    float mouseX;
+    float mouseY;
     #endregion
 
     #region Pickup related fields
@@ -61,6 +63,9 @@ public class Player : MonoBehaviour
     bool dropObjectCoroutineIsRunning;
 
     public LayerMask defaultLayer;
+    public Axes3D pickupRotAxis;
+    RaycastHit hitInfo;
+    bool raycastHitResult;
     #endregion
 
     #region Interaction related fields
@@ -68,19 +73,16 @@ public class Player : MonoBehaviour
     bool isPressedLMB;
     bool isHoldingRMB;
     bool isPressedSpace;
-
-    // Interact related fields
     bool isPressedE;
-
-    RaycastHit hitInfo;
-    bool raycastHitResult; 
+    bool isHoldingX;
+    bool isHoldingY;
+    bool isHoldingZ;
     #endregion
 
     #region Tags related fields
     // Tags related fields
     string tagPickup = "Pickup";
-    string tagInteractable = "Interactable";
-    string tagEscapeKey = "EscapeKey"; // The tag of the key game object which lets the player escape the house. 
+    string tagEscapeKey = "EscapeKey"; // The tag of the key game object which lets the player escape the house. TODO: Might need to refer to it by name.
     #endregion
 
     /// <summary>
@@ -119,6 +121,9 @@ public class Player : MonoBehaviour
         isHoldingRMB = Input.GetMouseButton((int)MouseButton.RightMouse);
         isPressedSpace = Input.GetKeyDown(KeyCode.Space);
         isPressedE = Input.GetKeyDown(KeyCode.E);
+        isHoldingX = Input.GetKey(KeyCode.X);
+        isHoldingY = Input.GetKey(KeyCode.Y);
+        isHoldingZ = Input.GetKey(KeyCode.Z);
     }
 
     /// <summary>
@@ -126,13 +131,16 @@ public class Player : MonoBehaviour
     /// </summary>
     void HandleRotation()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
 
-        playerYaw += StaticVariables.mouseSensitivity * mouseX * Time.deltaTime;
-        eyesPitch -= StaticVariables.mouseSensitivity * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis is up.
+        if (!isHoldingX && !isHoldingY && !isHoldingZ)
+        {
+            playerYaw += StaticVariables.mouseSensitivity * mouseX * Time.deltaTime;
+            eyesPitch -= StaticVariables.mouseSensitivity * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis is up.
 
-        eyesPitch = Mathf.Clamp(eyesPitch, -eyesPitchThreshold, eyesPitchThreshold);
+            eyesPitch = Mathf.Clamp(eyesPitch, -eyesPitchThreshold, eyesPitchThreshold);
+        }
 
         // First, reset all rotations.
         transform.rotation = Quaternion.identity;
@@ -193,7 +201,7 @@ public class Player : MonoBehaviour
 
     /// <summary>
     /// Handles the inputs for controlling a pickup object which is currently being held.
-    /// The object can be dropped, thrown, or zoomed in/out.
+    /// The object can be dropped, thrown, or zoomed in/out; or rotated along the three axes.
     /// See See <see cref="ReadInteractionInputs"/>.
     /// </summary>
     void HandleControlPickupObject()
@@ -205,6 +213,19 @@ public class Player : MonoBehaviour
 
         pickupZoomCurValue += Input.mouseScrollDelta.y * Time.deltaTime * pickupZoomSpeed;
         pickupZoomCurValue = Mathf.Clamp(pickupZoomCurValue, pickupZoomMin, pickupZoomMax);
+
+        // To prevent the pickup object from accumulating "potential energy".
+        pickupRbody.velocity = Vector3.zero;
+        pickupRbody.angularVelocity = Vector3.zero;
+
+        pickupRotAxis.SetActiveAxes(isHoldingX || isHoldingY || isHoldingZ);
+
+        if (isHoldingX || isHoldingY || isHoldingZ)
+        {
+            pickupRotAxis.transform.position = pickupObject.transform.position;
+            pickupRotAxis.transform.rotation = Quaternion.identity;
+            pickupRotAxis.transform.Rotate(Vector3.up, playerYaw);
+        }
 
         if (!isHoldingRMB)
         {
@@ -219,6 +240,27 @@ public class Player : MonoBehaviour
             {
                 StartCoroutine("DropObjectCoroutine", true);
             }
+        }
+        else if (isHoldingX)
+        {
+            float speed = StaticVariables.mouseSensitivity * mouseY * Time.deltaTime;
+            pickupObject.transform.Rotate(eyes.transform.right, speed, Space.World);
+
+            pickupRotAxis.SetChosenAxis(Axes3D.Axis.X);
+        }
+        else if (isHoldingY)
+        {
+            float speed = StaticVariables.mouseSensitivity * (-mouseX) * Time.deltaTime;
+            pickupObject.transform.Rotate(eyes.transform.transform.up, speed, Space.World);
+
+            pickupRotAxis.SetChosenAxis(Axes3D.Axis.Y);
+        }
+        else if (isHoldingZ)
+        {
+            float speed = StaticVariables.mouseSensitivity * (-mouseX) * Time.deltaTime;
+            pickupObject.transform.Rotate(eyes.transform.transform.forward, speed, Space.World);
+
+            pickupRotAxis.SetChosenAxis(Axes3D.Axis.Z);
         }
 
         if (Vector3.Distance(eyes.position, pickupRbody.position) > pickupRayLength && !dropObjectCoroutineIsRunning)
@@ -236,20 +278,15 @@ public class Player : MonoBehaviour
     /// </summary>
     void HandleInteract()
     {
-        if (pickupObject != null || raycastHitResult == false)
+        if (/*pickupObject != null || */raycastHitResult == false)
         {
             return;
         }
 
         if (isPressedE)
         {
-            if (hitInfo.transform.gameObject.tag != tagInteractable)
-            {
-                return;
-            }
-
             IInteractable interactable = hitInfo.transform.gameObject.GetComponent<IInteractable>();
-            interactable.BeInteracted(this.gameObject, null);
+            interactable?.BeInteracted(this.gameObject, null);
         }
     }
 
@@ -357,6 +394,7 @@ public class Player : MonoBehaviour
 
         eyes = transform.Find("Eyes");
         feet = transform.Find("Feet");
+
     }
 
     /// <summary>
