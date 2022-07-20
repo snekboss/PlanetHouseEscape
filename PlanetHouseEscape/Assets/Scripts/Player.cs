@@ -81,7 +81,6 @@ public class Player : MonoBehaviour
 
     #region Tags related fields
     // Tags related fields
-    string tagPickup = "Pickup";
     string tagEscapeKey = "EscapeKey"; // The tag of the key game object which lets the player escape the house. TODO: Might need to refer to it by name.
     #endregion
 
@@ -187,7 +186,7 @@ public class Player : MonoBehaviour
 
         if (isHoldingRMB)
         {
-            if (raycastHitResult && hitInfo.transform.gameObject.tag != tagPickup)
+            if (raycastHitResult && hitInfo.transform.gameObject.tag != StaticVariables.TagPickup)
             {
                 return;
             }
