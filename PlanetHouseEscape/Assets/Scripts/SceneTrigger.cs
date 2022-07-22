@@ -12,7 +12,7 @@ public class SceneTrigger : MonoBehaviour
     /// <summary>
     /// The other collider which entered the confines of this SceneTrigger instance.
     /// </summary>
-    public Collider otherCol; 
+    [System.NonSerialized] public Collider otherCol; 
 
     /// <summary>
     ///  Unity's OnTriggerEnter method. In this case, it is used to invoke the triggerEvent associated with this trigger collider.

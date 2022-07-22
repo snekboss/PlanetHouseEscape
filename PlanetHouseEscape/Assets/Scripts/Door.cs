@@ -6,6 +6,13 @@ using UnityEngine;
 /// </summary>
 public class Door : MonoBehaviour, IInteractable
 {
+    public enum DoorRotationAxis
+    {
+        X = 0,
+        Y,
+        Z
+    }
+    public DoorRotationAxis chosenRotationAxis;
     public Transform containerTransform;
 
     [Range(-180f, 180f)]
@@ -37,7 +44,7 @@ public class Door : MonoBehaviour, IInteractable
         if (!animCoroutineIsRunning)
         {
             isOpening = !isOpening;
-            currentAngle = containerTransform.localEulerAngles.y;
+            SetCurrentAngle();
 
             StartCoroutine("AnimCoroutine");
         }
@@ -57,11 +64,7 @@ public class Door : MonoBehaviour, IInteractable
             openTime += Time.deltaTime * openSpeed;
             openTime = Mathf.Clamp01(openTime);
 
-            float x = containerTransform.localEulerAngles.x;
-            float offsetY = isOpening ? doorOpenAngle : 0;
-            float y = Mathf.LerpAngle(currentAngle, defaultAngle + offsetY, openTime);
-            float z = containerTransform.localEulerAngles.z;
-            containerTransform.localEulerAngles = new Vector3(x, y, z);
+            containerTransform.localEulerAngles = GetLerpedAngle(openTime);
 
             if (openTime >= 1f)
             {
@@ -74,11 +77,84 @@ public class Door : MonoBehaviour, IInteractable
     }
 
     /// <summary>
+    /// Returns the lerped local euler angles result based on an openTime percentage.
+    /// The vector contains the angles between defaultAngle and doorOpenAngle based on openTime normalized time.
+    /// </summary>
+    /// <param name="openTime">A float value between 0 and 1 which defines the normalized time of the door's opening animation progress.</param>
+    /// <returns>Returns a Vector3 of (x,y,z) local euler angles of the lerped angles.</returns>
+    Vector3 GetLerpedAngle(float openTime)
+    {
+        float x, y, z = 0;
+        if (chosenRotationAxis == DoorRotationAxis.X)
+        {
+            float offsetX = isOpening ? doorOpenAngle : 0;
+            x = Mathf.LerpAngle(currentAngle, defaultAngle + offsetX, openTime);
+            y = containerTransform.localEulerAngles.y;
+            z = containerTransform.localEulerAngles.z;
+        }
+        else if (chosenRotationAxis == DoorRotationAxis.Y)
+        {
+            x = containerTransform.localEulerAngles.x;
+            float offsetY = isOpening ? doorOpenAngle : 0;
+            y = Mathf.LerpAngle(currentAngle, defaultAngle + offsetY, openTime);
+            z = containerTransform.localEulerAngles.z;
+        }
+        else
+        {
+            x = containerTransform.localEulerAngles.x;
+            y = containerTransform.localEulerAngles.y;
+            float offsetZ = isOpening ? doorOpenAngle : 0;
+            z = Mathf.LerpAngle(currentAngle, defaultAngle + offsetZ, openTime);
+        }
+
+        return new Vector3(x, y, z);
+    }
+
+    /// <summary>
+    /// Sets the default angle of the door based on the chosen DoorRotationAxis.
+    /// </summary>
+    void SetDefaultAngle()
+    {
+        if (chosenRotationAxis == DoorRotationAxis.X)
+        {
+            defaultAngle = containerTransform.localEulerAngles.x;
+        }
+        else if (chosenRotationAxis == DoorRotationAxis.Y)
+        {
+            defaultAngle = containerTransform.localEulerAngles.y;
+        }
+        else
+        {
+            defaultAngle = containerTransform.localEulerAngles.z;
+        }
+    }
+
+    /// <summary>
+    /// Sets the currentAngle of the door based on the DoorRotationAxis.
+    /// The currentAngle is used while animating the door.
+    /// </summary>
+    void SetCurrentAngle()
+    {
+        if (chosenRotationAxis == DoorRotationAxis.X)
+        {
+            currentAngle = containerTransform.localEulerAngles.x;
+        }
+        else if (chosenRotationAxis == DoorRotationAxis.Y)
+        {
+            currentAngle = containerTransform.localEulerAngles.y;
+        }
+        else
+        {
+            currentAngle = containerTransform.localEulerAngles.z;
+        }
+    }
+
+    /// <summary>
     /// Unity's Start method. Start is called before the first frame update
     /// </summary>
     void Start()
     {
-        defaultAngle = containerTransform.localEulerAngles.y;
+        SetDefaultAngle();
 
         rbody = gameObject.GetComponent<Rigidbody>();
         if (rbody == null)
