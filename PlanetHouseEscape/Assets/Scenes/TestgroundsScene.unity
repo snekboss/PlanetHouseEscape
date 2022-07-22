@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: beb7145d9f32b2b4d8e7225d94fdd157, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.00008778978, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -392,7 +392,7 @@ Transform:
   - {fileID: 1938081398}
   - {fileID: 1823296292}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &43833898
 GameObject:
@@ -528,7 +528,7 @@ Transform:
   - {fileID: 1401072713}
   - {fileID: 317680918}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &51936441
 GameObject:
@@ -4867,7 +4867,7 @@ Transform:
   - {fileID: 975692384}
   - {fileID: 273440917}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &788593859
 MonoBehaviour:
@@ -4881,11 +4881,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1869db142c25ecd4ead57478b5003282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  password: Neptune
+  password: Earth
   eatenLetters: 
   numExtraLetters: 3
   transSpawnReward: {fileID: 975692384}
-  rewardPlanetPrefab: {fileID: 740391824524488397, guid: a4f548099a36f5e49895cda480925ac7, type: 3}
+  rewardPlanetPrefab: {fileID: 1623124748893142433, guid: bf22d8eceee11504eba2d61d2c8b8d01, type: 3}
   rewardThrowForce: 10
   transSpawnLetterInitial: {fileID: 1565954928}
   letterSpawnRadius: 3
@@ -11087,61 +11087,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1853721545}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1857164534
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1857164536}
-  - component: {fileID: 1857164535}
-  m_Layer: 0
-  m_Name: LetterEaterMachine
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1857164535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1857164534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1869db142c25ecd4ead57478b5003282, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  password: 
-  eatenLetters: 
-  numExtraLetters: 0
-  transSpawnReward: {fileID: 0}
-  rewardPlanetPrefab: {fileID: 0}
-  rewardThrowForce: 0
-  transSpawnLetterInitial: {fileID: 0}
-  letterSpawnRadius: 0
-  letterSpawnPeriod: 0
-  transSpawnLetterRefund: {fileID: 0}
-  letterThrowForce: 0
---- !u!4 &1857164536
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1857164534}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5398713, y: 0.46837524, z: -2.1591725}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1861324939
 GameObject:
   m_ObjectHideFlags: 0
@@ -13326,7 +13271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 890458493082523949, guid: 76e9827ed9121f14295beecd48445fe6, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 890458493082523949, guid: 76e9827ed9121f14295beecd48445fe6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13379,7 +13324,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1264981771735994013, guid: 0d6a796efa43e8b408d690fb8618c015, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1264981771735994013, guid: 0d6a796efa43e8b408d690fb8618c015, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13440,7 +13385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1623124748893142437, guid: bf22d8eceee11504eba2d61d2c8b8d01, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1623124748893142437, guid: bf22d8eceee11504eba2d61d2c8b8d01, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13493,7 +13438,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3264705820138178387, guid: 5c24a759f66ad8549bc166dbaae2f10a, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3264705820138178387, guid: 5c24a759f66ad8549bc166dbaae2f10a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13554,7 +13499,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4316966763306857926, guid: a4f548099a36f5e49895cda480925ac7, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4316966763306857926, guid: a4f548099a36f5e49895cda480925ac7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13607,7 +13552,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5298435459405071259, guid: 2fc531d40428f4e418a703b2e2eb161d, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5298435459405071259, guid: 2fc531d40428f4e418a703b2e2eb161d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13664,7 +13609,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5795611243222252444, guid: 1bdaa1715fe79fb4d8c653ec9dd971e3, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5795611243222252444, guid: 1bdaa1715fe79fb4d8c653ec9dd971e3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13721,7 +13666,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7791123240097994892, guid: 2b60ed714189882468fea5332f2f2365, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7791123240097994892, guid: 2b60ed714189882468fea5332f2f2365, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13782,7 +13727,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7865581578830871157, guid: efeba63b554d2f34389df019e353f166, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7865581578830871157, guid: efeba63b554d2f34389df019e353f166, type: 3}
       propertyPath: m_LocalPosition.x
