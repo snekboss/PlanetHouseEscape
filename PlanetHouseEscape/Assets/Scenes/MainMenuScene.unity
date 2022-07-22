@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &4662295732654967863
+--- !u!1001 &7712795706189129182
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -185,14 +185,6 @@ PrefabInstance:
     - target: {fileID: 4662295732180312475, guid: 2e96b927499d45d408e53707d37d0825, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4662295733076042052, guid: 2e96b927499d45d408e53707d37d0825, type: 3}
-      propertyPath: far clip plane
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4662295733076042052, guid: 2e96b927499d45d408e53707d37d0825, type: 3}
-      propertyPath: near clip plane
-      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4662295733141015973, guid: 2e96b927499d45d408e53707d37d0825, type: 3}
       propertyPath: m_AnchorMax.x

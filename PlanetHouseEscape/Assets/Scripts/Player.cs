@@ -393,6 +393,11 @@ public class Player : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (InGameUI.isGamePaused || InGameUI.isGameOver)
+        {
+            return;
+        }
+
         DoCleanupIfPickupObjectIsNull();
         HandleRaycast();
         ReadInteractionInputs();

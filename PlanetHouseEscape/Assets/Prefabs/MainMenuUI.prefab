@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sliderMouseSensitivity: {fileID: 4662295732677067100}
-  txtMouseSensitiviy: {fileID: 4662295731389720199}
+  txtMouseSensitivity: {fileID: 4662295731389720199}
   screenMainMenu: {fileID: 4662295732555844047}
   screenControls: {fileID: 4662295731222609362}
   screenHints: {fileID: 4662295731675368909}

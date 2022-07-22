@@ -7,13 +7,13 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// A class which designates the attached game object as the MainMenu.
+/// A class which designates the attached game object as the MainMenuUI.
 /// This script contains the logic of the Main Menu UI.
 /// </summary>
-public class MainMenu : MonoBehaviour
+public class MainMenuUI : MonoBehaviour
 {
     public Slider sliderMouseSensitivity;
-    public TextMeshProUGUI txtMouseSensitiviy;
+    public TextMeshProUGUI txtMouseSensitivity;
 
     public GameObject screenMainMenu;
     public GameObject screenControls;
@@ -42,7 +42,7 @@ public class MainMenu : MonoBehaviour
     {
         StaticVariables.MouseSensitivity = sliderMouseSensitivity.value;
         Time.timeScale = 1;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("GameScene");
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public class MainMenu : MonoBehaviour
     public void OnSlider_ValueChanged()
     {
         int val = Convert.ToInt32(sliderMouseSensitivity.value);
-        txtMouseSensitiviy.text = "Mouse Sensitivity: " + val;
+        txtMouseSensitivity.text = "Mouse Sensitivity: " + val;
         StaticVariables.MouseSensitivity = val;
     }
 
@@ -116,11 +116,8 @@ public class MainMenu : MonoBehaviour
 
         btnGoBack.gameObject.SetActive(false);
 
-        if (StaticVariables.loadedForTheFirstTime)
-        {
-            sliderMouseSensitivity.value = StaticVariables.MouseSensitivity;
-            StaticVariables.loadedForTheFirstTime = false;
-        }
+        sliderMouseSensitivity.value = StaticVariables.MouseSensitivity;
+
         OnSlider_ValueChanged();
     }
 
