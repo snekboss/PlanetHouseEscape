@@ -135,8 +135,8 @@ public class Player : MonoBehaviour
 
         if (!isHoldingX && !isHoldingY && !isHoldingZ)
         {
-            playerYaw += StaticVariables.mouseSensitivity * mouseX * Time.deltaTime;
-            eyesPitch -= StaticVariables.mouseSensitivity * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis is up.
+            playerYaw += StaticVariables.MouseSensitivity * mouseX * Time.deltaTime;
+            eyesPitch -= StaticVariables.MouseSensitivity * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis is up.
 
             eyesPitch = Mathf.Clamp(eyesPitch, -eyesPitchThreshold, eyesPitchThreshold);
         }
@@ -242,21 +242,21 @@ public class Player : MonoBehaviour
         }
         else if (isHoldingX)
         {
-            float speed = StaticVariables.mouseSensitivity * mouseY * Time.deltaTime;
+            float speed = StaticVariables.MouseSensitivity * mouseY * Time.deltaTime;
             pickupObject.transform.Rotate(eyes.transform.right, speed, Space.World);
 
             pickupRotAxis.SetChosenAxis(Axes3D.Axis.X);
         }
         else if (isHoldingY)
         {
-            float speed = StaticVariables.mouseSensitivity * (-mouseX) * Time.deltaTime;
+            float speed = StaticVariables.MouseSensitivity * (-mouseX) * Time.deltaTime;
             pickupObject.transform.Rotate(eyes.transform.transform.up, speed, Space.World);
 
             pickupRotAxis.SetChosenAxis(Axes3D.Axis.Y);
         }
         else if (isHoldingZ)
         {
-            float speed = StaticVariables.mouseSensitivity * (-mouseX) * Time.deltaTime;
+            float speed = StaticVariables.MouseSensitivity * (-mouseX) * Time.deltaTime;
             pickupObject.transform.Rotate(eyes.transform.transform.forward, speed, Space.World);
 
             pickupRotAxis.SetChosenAxis(Axes3D.Axis.Z);
@@ -287,14 +287,6 @@ public class Player : MonoBehaviour
             IInteractable interactable = hitInfo.transform.gameObject.GetComponent<IInteractable>();
             interactable?.BeInteracted(this.gameObject, null);
         }
-    }
-
-    /// <summary>
-    /// The player keeps track of the in-game time. TODO: Create a separate game object for this?... Seriosuly... ugh...
-    /// </summary>
-    void IncrementTime()
-    {
-        StaticVariables.time += Time.deltaTime * Time.timeScale;
     }
 
     /// <summary>
@@ -409,8 +401,6 @@ public class Player : MonoBehaviour
         HandlePickingUp();
         HandleControlPickupObject();
         HandleInteract();
-
-        IncrementTime();
     }
 
     /// <summary>

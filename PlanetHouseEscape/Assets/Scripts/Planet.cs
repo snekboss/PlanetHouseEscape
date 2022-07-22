@@ -88,22 +88,10 @@ public class Planet : MonoBehaviour
 
     /// <summary>
     /// Unity's Awake method. Awake is called when the script instance is being loaded.
-    /// In this case, it is used to initialize the components of the Planet.
+    /// In this case, it is used to initialize the tag of the game object to which it is associated.
     /// </summary>
     void Awake()
     {
-        if (rbody == null)
-        {
-            rbody = gameObject.AddComponent<Rigidbody>();
-        }
-        rbody.useGravity = true;
-        rbody.isKinematic = false;
-
-        if (col == null)
-        {
-            col = gameObject.AddComponent<SphereCollider>();
-        }
-
         gameObject.tag = StaticVariables.TagPickup;
     }
 }

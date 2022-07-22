@@ -17,7 +17,14 @@ public class Letter : MonoBehaviour
     const float scaleY = 0.025f;
     const float scaleZ = 0.25f;
 
+
     static Dictionary<char, Letter> alphabetPrefabs; // chars are upper case
+    /// <summary>
+    /// Dictionary of alphabet prefabs. The keys are of type <see cref="System.Char"/>, and the values are of type <see cref="Letter"/>.
+    /// The keys are upper case.
+    /// WARNING: The letters 'W' and 'Z' do not exist in the game because they look like 'M' and 'N' (which do exist in the game).
+    /// Thankfully, the planet names do not use either of 'W' or 'Z'.
+    /// </summary>
     public static Dictionary<char, Letter> AlphabetPrefabs
     {
         get
@@ -52,9 +59,6 @@ public class Letter : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
-        transform.Rotate(Vector3.up, 180.0f, Space.World);
-
         if (rbody == null)
         {
             rbody = gameObject.AddComponent<Rigidbody>();
@@ -67,6 +71,10 @@ public class Letter : MonoBehaviour
         {
             col = gameObject.AddComponent<BoxCollider>();
         }
+
+        transform.localScale = new Vector3(scaleX, scaleY, scaleZ);
+        transform.Rotate(Vector3.up, 180.0f, Space.World);
+
         character = char.ToUpper(character);
     }
 }
