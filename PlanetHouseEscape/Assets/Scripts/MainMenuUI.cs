@@ -42,6 +42,8 @@ public class MainMenuUI : MonoBehaviour
     {
         StaticVariables.MouseSensitivity = sliderMouseSensitivity.value;
         Time.timeScale = 1;
+        InGameUI.isGameOver = false;
+        InGameUI.isGamePaused = false;
         SceneManager.LoadScene("GameScene");
     }
 

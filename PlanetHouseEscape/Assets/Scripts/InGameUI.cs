@@ -15,13 +15,13 @@ public class InGameUI : MonoBehaviour
     public static bool isGamePaused = false;
     public static bool isGameOver = false;
 
-    public Button btnReturnToMainMenu;
-
     public Slider sliderMouseSensitivity;
     public TextMeshProUGUI txtMouseSensitivity;
 
-    public GameObject panelPauseMenu;
-    public GameObject panelGameOver;
+    public GameObject screenPauseMenu;
+    public GameObject screenGameOver;
+
+    public TextMeshProUGUI txtGameOverBody; // writes out player's time to finish the game
 
 
     /// <summary>
@@ -30,6 +30,7 @@ public class InGameUI : MonoBehaviour
     /// </summary>
     public void OnClick_ButtonReturnToMainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenuScene");
     }
 
@@ -45,6 +46,23 @@ public class InGameUI : MonoBehaviour
     }
 
     /// <summary>
+    /// A public method which sets the game's state to finished.
+    /// It also makes the game over screen visible.
+    /// This method can be called when the game is meant to be finished.
+    /// </summary>
+    public void FinishGame()
+    {
+        isGameOver = true;
+        screenGameOver.SetActive(true);
+        TimeSpan timeSpan = TimeSpan.FromSeconds(Time.timeSinceLevelLoad);
+        string timeStr = string.Format("{0:D2} minutes, {1:D2} seconds", timeSpan.Minutes, timeSpan.Seconds);
+
+        txtGameOverBody.text = "Your time:" + Environment.NewLine + timeStr;
+
+        Time.timeScale = 0;
+    }
+
+    /// <summary>
     /// Toggles the activeness (ie, visibility) of the Pause Menu.
     /// </summary>
     /// <param name="show">True if the pause menu should be visible; false otherwise.</param>
@@ -52,13 +70,13 @@ public class InGameUI : MonoBehaviour
     {
         if (show)
         {
-            panelPauseMenu.SetActive(true);
+            screenPauseMenu.SetActive(true);
             Time.timeScale = 0;
             ToggleMouse(true);
         }
         else
         {
-            panelPauseMenu.SetActive(false);
+            screenPauseMenu.SetActive(false);
             Time.timeScale = 1;
             ToggleMouse(false);
         }
@@ -85,12 +103,18 @@ public class InGameUI : MonoBehaviour
     /// <summary>
     /// Initializes the In Game UI.
     /// </summary>
-    void InitPauseMenu()
+    void InitInGameUI()
     {
+        // Init pause menu
         sliderMouseSensitivity.value = StaticVariables.MouseSensitivity;
         OnSlider_ValueChanged();
 
+        isGamePaused = false;
         TogglePauseMenu(false);
+
+        // Init game over menu
+        screenGameOver.SetActive(false);
+        isGameOver = false;
     }
 
     /// <summary>
@@ -112,6 +136,6 @@ public class InGameUI : MonoBehaviour
     /// </summary>
     void Start()
     {
-        InitPauseMenu();
+        InitInGameUI();
     }
 }
