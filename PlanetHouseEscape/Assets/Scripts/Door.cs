@@ -19,7 +19,7 @@ public class Door : MonoBehaviour, IInteractable
     public float doorOpenAngle;
     [Range(0f, 10f)]
     public float openSpeed;
-    public bool unlocked = true;
+    public bool unlocked;
     Rigidbody rbody;
 
     float defaultAngle;

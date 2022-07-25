@@ -13,7 +13,6 @@ public class BookshelfPuzzle : MonoBehaviour
     public GameObject bookLeverVisualPhosphorous;
 
     public Door secretDoor; // will be opened when the puzzle is solved.
-    public Collider secretDoorBlockadeCollider; // used to block raycasts into the secret door, to prevent the player from opening it directly.
 
     bool isPuzzleComplete = false;
 
@@ -61,8 +60,8 @@ public class BookshelfPuzzle : MonoBehaviour
         if (D == bookLever)
         {
             isPuzzleComplete = true;
+            secretDoor.unlocked = true;
             secretDoor.BeInteracted(this.gameObject, null);
-            Destroy(secretDoorBlockadeCollider.gameObject);
             Destroy(sceneTriggerItself.gameObject);
 
             InitBookLevelVisuals();
