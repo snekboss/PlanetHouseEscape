@@ -7,7 +7,7 @@ public class FlipFlopButton : SceneButton
 {
     public Transform btnSwitchVisual1;
     public Transform btnSwitchVisual2;
-    bool flipState;
+    bool flipState = true;
 
     /// <summary>
     /// Implementation of the <see cref="SceneButton.BeInteracted(GameObject, object)"/> method.

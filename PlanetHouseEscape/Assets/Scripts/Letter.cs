@@ -13,9 +13,9 @@ public class Letter : MonoBehaviour
     BoxCollider col;
     Rigidbody rbody;
 
-    const float scaleX = 0.25f;
-    const float scaleY = 0.025f;
-    const float scaleZ = 0.25f;
+    const float scaleX = 0.125f;
+    const float scaleY = 0.0125f;
+    const float scaleZ = 0.125f;
 
 
     static Dictionary<char, Letter> alphabetPrefabs; // chars are upper case

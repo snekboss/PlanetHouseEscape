@@ -13,6 +13,7 @@ public class Planet : MonoBehaviour
 
     static List<char> unusedLetters;
     static Dictionary<string, GameObject> planetPrefabs;
+    public const float PlanetPrefabSpawnUniformScale = 0.5f;
     public static Dictionary<string, GameObject> PlanetPrefabs
     {
         get
@@ -88,10 +89,11 @@ public class Planet : MonoBehaviour
 
     /// <summary>
     /// Unity's Awake method. Awake is called when the script instance is being loaded.
-    /// In this case, it is used to initialize the tag of the game object to which it is associated.
+    /// In this case, it is used to initialize some of the components of the game object to which it is associated.
     /// </summary>
     void Awake()
     {
         gameObject.tag = StaticVariables.TagPickup;
+        gameObject.transform.localScale = new Vector3(PlanetPrefabSpawnUniformScale, PlanetPrefabSpawnUniformScale, PlanetPrefabSpawnUniformScale);
     }
 }
