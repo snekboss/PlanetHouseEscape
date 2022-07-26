@@ -10,7 +10,9 @@ using UnityEngine;
 /// </summary>
 public class SceneLight : MonoBehaviour
 {
-    Light lightComponent;
+    public Light lightComponent;
+    public GameObject lightVisualOn;
+    public GameObject lightVisualOff;
 
     /// <summary>
     /// Switches the state of the light (on/off).
@@ -18,15 +20,18 @@ public class SceneLight : MonoBehaviour
     public void SwitchLight()
     {
         lightComponent.enabled = !lightComponent.enabled;
+        lightVisualOn.SetActive(lightComponent.enabled);
+        lightVisualOff.SetActive(!lightComponent.enabled);
     }
 
     /// <summary>
     /// Unity's Awake method. Awake is called when the script instance is being loaded.
-    /// In this case, it is used to get the reference of the light component which is attached to this object.
+    /// In this case, it is used to initialize the light.
     /// </summary>
     void Awake()
     {
-        lightComponent = GetComponent<Light>();
         lightComponent.enabled = true;
+        lightVisualOn.SetActive(true);
+        lightVisualOff.SetActive(false);
     }
 }
