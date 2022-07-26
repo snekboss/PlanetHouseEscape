@@ -53,13 +53,12 @@ public class InGameUI : MonoBehaviour
     public void FinishGame()
     {
         isGameOver = true;
+        ToggleMouse(true);
         screenGameOver.SetActive(true);
         TimeSpan timeSpan = TimeSpan.FromSeconds(Time.timeSinceLevelLoad);
         string timeStr = string.Format("{0:D2} minutes, {1:D2} seconds", timeSpan.Minutes, timeSpan.Seconds);
 
         txtGameOverBody.text = "Your time:" + Environment.NewLine + timeStr;
-
-        Time.timeScale = 0;
     }
 
     /// <summary>
@@ -123,6 +122,11 @@ public class InGameUI : MonoBehaviour
     /// </summary>
     void Update()
     {
+        if (isGameOver)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.M))
         {
             isGamePaused = !isGamePaused;

@@ -93,6 +93,7 @@ public class Planet : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        PlanetName = PlanetName.ToUpper();
         gameObject.tag = StaticVariables.TagPickup;
         gameObject.transform.localScale = new Vector3(PlanetPrefabSpawnUniformScale, PlanetPrefabSpawnUniformScale, PlanetPrefabSpawnUniformScale);
     }

@@ -143,6 +143,7 @@ public class LetterEater : MonoBehaviour
             isPuzzleSolved = true;
 
             Planet reward = Instantiate(rewardPlanetPrefab);
+            reward.gameObject.name = reward.PlanetName;
             reward.transform.parent = null;
             reward.transform.position = transSpawnReward.position;
             reward.transform.rotation = transSpawnReward.rotation;

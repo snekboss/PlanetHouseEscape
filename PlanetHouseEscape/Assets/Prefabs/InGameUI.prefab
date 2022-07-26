@@ -505,7 +505,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4364168355263922465}
+      - m_Target: {fileID: 293783042138966520}
         m_TargetAssemblyTypeName: InGameUI, Assembly-CSharp
         m_MethodName: OnClick_ButtonReturnToMainMenu
         m_Mode: 1
@@ -605,7 +605,6 @@ GameObject:
   - component: {fileID: 4364168355263922464}
   - component: {fileID: 4364168355263922467}
   - component: {fileID: 4364168355263922466}
-  - component: {fileID: 4364168355263922465}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -696,23 +695,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4364168355263922465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4364168355263922460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dd1a51c21e59644aaf9c626b89a74de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sliderMouseSensitivity: {fileID: 4364168356672476301}
-  txtMouseSensitivity: {fileID: 4364168356136485834}
-  screenPauseMenu: {fileID: 4364168355881183263}
-  screenGameOver: {fileID: 4364168356380372950}
-  txtGameOverBody: {fileID: 4364168356054937126}
 --- !u!1 &4364168355640067115
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +839,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4364168355681406387}
+  - component: {fileID: 293783042138966520}
   m_Layer: 0
   m_Name: InGameUI
   m_TagString: Untagged
@@ -881,6 +864,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &293783042138966520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4364168355681406386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dd1a51c21e59644aaf9c626b89a74de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderMouseSensitivity: {fileID: 4364168356672476301}
+  txtMouseSensitivity: {fileID: 4364168356136485834}
+  screenPauseMenu: {fileID: 4364168355881183263}
+  screenGameOver: {fileID: 4364168356380372950}
+  txtGameOverBody: {fileID: 4364168356054937126}
 --- !u!1 &4364168355752588002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1206,7 +1206,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4364168355263922465}
+      - m_Target: {fileID: 293783042138966520}
         m_TargetAssemblyTypeName: InGameUI, Assembly-CSharp
         m_MethodName: OnClick_ButtonReturnToMainMenu
         m_Mode: 1
@@ -2063,7 +2063,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4364168355263922465}
+      - m_Target: {fileID: 293783042138966520}
         m_TargetAssemblyTypeName: InGameUI, Assembly-CSharp
         m_MethodName: OnSlider_ValueChanged
         m_Mode: 1

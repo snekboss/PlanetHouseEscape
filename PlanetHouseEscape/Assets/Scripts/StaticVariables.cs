@@ -14,4 +14,5 @@ public class StaticVariables : MonoBehaviour
     public static float MouseSensitivity = 45f;
     public static bool loadedForTheFirstTime = true;
     public const string TagPickup = "Pickup";
+    public const string EscapeKeyName = "EscapeKey";
 }

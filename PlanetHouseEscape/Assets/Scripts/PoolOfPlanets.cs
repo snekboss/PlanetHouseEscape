@@ -13,9 +13,9 @@ using UnityEngine;
 public class PoolOfPlanets : MonoBehaviour
 {
     // Use unit spheres as planets. Leave their scales at Vector3.one.
-    public GameObject decoyPrefab;
+    public Planet decoyPrefab;
     public float decoyScale;
-    public GameObject uniquePrefab;
+    public Planet uniquePrefab;
     public float uniqueScale;
 
     [Range(0.1f, 10f)]
@@ -52,8 +52,8 @@ public class PoolOfPlanets : MonoBehaviour
     [SerializeField]
     int decoyCountTotal;
 
-    List<GameObject> listDecoys = new List<GameObject>();
-    GameObject uniquePlanet;
+    List<Planet> listDecoys = new List<Planet>();
+    Planet uniquePlanet;
 
     float decoyRadius { get { return decoyScale / 2.0f; } }
 
@@ -101,7 +101,8 @@ public class PoolOfPlanets : MonoBehaviour
                 float spawnX = decoyRadius;
                 for (int x = 0; x < decoyCountRight; x++)
                 {
-                    GameObject decoy = Instantiate(decoyPrefab);
+                    Planet decoy = Instantiate(decoyPrefab);
+                    decoy.gameObject.name = decoy.PlanetName;
                     decoy.transform.parent = this.transform;
                     decoy.transform.localPosition = new Vector3(spawnX, spawnY, spawnZ);
                     decoy.transform.localScale = Vector3.one * decoyScale;
@@ -138,6 +139,7 @@ public class PoolOfPlanets : MonoBehaviour
         float randZ = UnityEngine.Random.Range(-uniqueSpawnRadius, uniqueSpawnRadius);
         Vector3 randomizationOffset = new Vector3(randX, randY, randZ);
         uniquePlanet = Instantiate(uniquePrefab);
+        uniquePlanet.gameObject.name = uniquePlanet.PlanetName;
         uniquePlanet.transform.parent = this.transform;
         uniquePlanet.transform.localPosition = (spawnCubeDiagonal / 2) + randomizationOffset;
         uniquePlanet.transform.localScale = Vector3.one * uniqueScale;

@@ -79,11 +79,6 @@ public class Player : MonoBehaviour
     bool isHoldingZ;
     #endregion
 
-    #region Tags related fields
-    // Tags related fields
-    string tagEscapeKey = "EscapeKey"; // The tag of the key game object which lets the player escape the house. TODO: Might need to refer to it by name.
-    #endregion
-
     /// <summary>
     /// If the pickup object is null, then the associated rigidbody and collider references will also be set to null by this method.
     /// This acts as a countermeasure to potential bugs that might be caused by the use of coroutines for example.
@@ -360,17 +355,6 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks whether the player is currently holding the key to escape the house in his hands.
-    /// It will be used by the exit door of the house, which will immediately finish the game if the key collides with the door.
-    /// </summary>
-    /// <returns>Returns true if the player is currently holding the key to escape the house in his hands; false if not.</returns>
-    public bool IsHoldingTheKey()
-    {
-        return pickupObject != null && pickupObject.tag == tagEscapeKey;
-    }
-
-
-    /// <summary>
     /// Unity's Start method. Start is called before the first frame update.
     /// </summary>
     void Start()
@@ -393,7 +377,14 @@ public class Player : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (InGameUI.isGamePaused || InGameUI.isGameOver)
+        if (InGameUI.isGameOver)
+        {
+            movementSpeed = 0;
+            mouseX = mouseY = 0;
+            return;
+        }
+
+        if (InGameUI.isGamePaused)
         {
             return;
         }
