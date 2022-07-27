@@ -13,6 +13,7 @@ public class BookshelfPuzzle : MonoBehaviour
     public GameObject bookLeverVisualPhosphorous;
 
     public Door secretDoor; // will be opened when the puzzle is solved.
+    public SceneButton roomLightSwitch;
 
     bool isPuzzleComplete = false;
 
@@ -62,6 +63,13 @@ public class BookshelfPuzzle : MonoBehaviour
             isPuzzleComplete = true;
             secretDoor.unlocked = true;
             secretDoor.BeInteracted(this.gameObject, null);
+
+            if (bookLeverVisualPhosphorous.activeSelf)
+            {
+                // if the lights are off, then turn them on.
+                roomLightSwitch.BeInteracted(this.gameObject, null);
+            }
+
             Destroy(sceneTriggerItself.gameObject);
 
             InitBookLevelVisuals();
