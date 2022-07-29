@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 /// <summary>
 /// The game object to which this script is attached is deemed as the sole player of the puzzle game scene,
 /// and this class handles the movement of said player.
+/// Ain't gonna get into any more details than that.
+/// The controls are meant to feel like Amnesia: The Dark Descent's controls.
 /// </summary>
 public class Player : MonoBehaviour
 {
@@ -130,8 +132,8 @@ public class Player : MonoBehaviour
 
         if (!isHoldingX && !isHoldingY && !isHoldingZ)
         {
-            playerYaw += StaticVariables.MouseSensitivity * mouseX * Time.deltaTime;
-            eyesPitch -= StaticVariables.MouseSensitivity * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis is up.
+            playerYaw += StaticVariables.PlayerRotationSensitivity * mouseX * Time.deltaTime;
+            eyesPitch -= StaticVariables.PlayerRotationSensitivity * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis is up.
 
             eyesPitch = Mathf.Clamp(eyesPitch, -eyesPitchThreshold, eyesPitchThreshold);
         }
@@ -237,21 +239,21 @@ public class Player : MonoBehaviour
         }
         else if (isHoldingX)
         {
-            float speed = StaticVariables.MouseSensitivity * mouseY * Time.deltaTime;
+            float speed = StaticVariables.PlayerRotationSensitivity * mouseY * Time.deltaTime;
             pickupObject.transform.Rotate(eyes.transform.right, speed, Space.World);
 
             pickupRotAxis.SetChosenAxis(Axes3D.Axis.X);
         }
         else if (isHoldingY)
         {
-            float speed = StaticVariables.MouseSensitivity * (-mouseX) * Time.deltaTime;
+            float speed = StaticVariables.PlayerRotationSensitivity * (-mouseX) * Time.deltaTime;
             pickupObject.transform.Rotate(eyes.transform.transform.up, speed, Space.World);
 
             pickupRotAxis.SetChosenAxis(Axes3D.Axis.Y);
         }
         else if (isHoldingZ)
         {
-            float speed = StaticVariables.MouseSensitivity * (-mouseX) * Time.deltaTime;
+            float speed = StaticVariables.PlayerRotationSensitivity * (-mouseX) * Time.deltaTime;
             pickupObject.transform.Rotate(eyes.transform.transform.forward, speed, Space.World);
 
             pickupRotAxis.SetChosenAxis(Axes3D.Axis.Z);

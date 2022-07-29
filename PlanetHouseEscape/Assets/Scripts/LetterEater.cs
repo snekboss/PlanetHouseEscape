@@ -5,6 +5,40 @@ using UnityEngine;
 /// <summary>
 /// A class which designates the attached object as a LetterEater machine.
 /// The machine eats letters. If the sequence of letters were correct, it spits out a planet as reward.
+/// - How does this script work?:
+/// The letter eater is a puzzle machine which eats <see cref="Letter"/>s and spits out a <see cref="Planet"/> as a reward.
+/// - 1) The password of type string: When the letters which the machine has eaten match the string written in as the password,
+/// then reward will be spit out. The sequence of the eaten letters is important.
+/// According to what you write as the password, those exact letters will be spawned by the machine when the game starts.
+/// - 2) numExtraLetters of type int: The number of letters which should be spawned that are different from the letters specified in the password.
+/// These letters are meant to act as a "challenge" to the player.
+/// - 3) transSpawnReward of type Transform: Create a game object in the scene, and make a reference to that game object in this script.
+/// It acts as a convenient way to specify the spawn point of the reward of the planet object.
+/// The planet will be spawned at the same position as this transform, and it will be "thrown" in the forward direction relative to transSpawnReward.
+/// The throw power can be specified via rewardThrowForce.
+/// - 4) rewardPlanetPrefab of type Planet: This is the PREFAB (not the game object in the scene) of the planet with which you wish to reward the player.
+/// So, you need to add the reference from your project directory.
+/// - 5) rewardThrowForce of type float: The strength of the force when the reward planet is spit out.
+/// - 6) transSpawnLetterInitial of type Transform: Create a game object in the scene, and make a reference to that game object in this script.
+/// It acts as a convenient way to specify the INITIAL spawn point of the letter objects when the game starts.
+/// - 7) letterSpawnRadius of type float: Using the position of transSpawnLetterInitial, the radius is used to determine the range of the spawned letters.
+/// The letters are spawned in the correct order, but at random locations, and this acts as a radius to determine how far the letters can spawn.
+/// Note that the radius does not count the Y axis. It only considers the X and Z axes, so it actually acts as a 2D square.
+/// - 8) letterSpawnPeriod of type float: It's just the time waited between each letter spawned.
+/// It is useful because it prevents the letters from being spawned at the same time (which could cause some physical explosions in the scene).
+/// - 9) transSpawnLetterRefund of type Transform: Create a game object in the scene, and make a refrence to that game object in this script.
+/// It acts as a convenient way to specify the spawn position when the player decides to refund the letters.
+/// Ihe forward direction of this transform object is also used to throw the letters in that direction.
+/// - 10) letterThrowForce of type float: The strength of the force when the letters are refunded.
+/// -
+/// - More information:
+/// - The "mouth" of the LetterEater is not known by this script.
+/// For the sake of modularity, you're supposed to use a <see cref="SceneTrigger"/> for that purpose.
+/// The SceneTrigger which acts as the mouth will have to call <see cref="OnMouthTriggerEnter"/>, which actually performs the "eating".
+/// Check out the documentation page of <see cref="SceneTrigger"/>for more details on how to use it.
+/// - The "refund button" is not known by this script.
+/// For the sake of modularity, you're supposed to use something else which calls <see cref="RefundLetters"/> for that.
+/// For example, a <see cref="PressableButton"/> can be used for this purpose. Check out its documentation page on how to use it.
 /// </summary>
 public class LetterEater : MonoBehaviour
 {

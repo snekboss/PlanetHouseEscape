@@ -4,6 +4,12 @@ using UnityEngine;
 
 /// <summary>
 /// A class which designates the attached game object as a Planet.
+/// - How to use this script?:
+/// Well, this script mostly contains data which describes a Planet.
+/// - <see cref="PlanetPrefabs"/> lazily loads the Planet PREFABS from memory, and references them as singleton reference.
+/// - The <see cref="DetermineUnusedLetters"/> static method is used by <see cref="Planet"/>.
+/// It goes through the names of each planet prefab that was loaded into the memory, and determines which letters are not used.
+/// The unused letters are used by <see cref="LetterEater"/> to add some sort of "challenge" to the player.
 /// </summary>
 public class Planet : MonoBehaviour
 {

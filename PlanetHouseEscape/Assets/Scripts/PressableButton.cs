@@ -3,6 +3,15 @@ using UnityEngine;
 
 /// <summary>
 /// A class which designates the attached object as a PressableButton.
+///  - How this class works:
+/// Create a game object in the scene which is supposed to be your PressableButton.
+/// We're going to assume that this game object has two main parts: Its visuals, and its collider.
+/// The player can only interact with the collider part, so make sure that the collider AND this PressableButton script is attached to the same game object.
+/// - 1) btnVisual of type GameObject: This is the part of the button which will be animated when the player presses on it.
+/// - 2) transBtnPress of type transform: This is used to animate the button when it is pressed.
+/// Using <see cref="PressAnimation"/> coroutine, the visual of the button is first moved to the position of transBtnPress.
+/// Then, over time (using recverySpeed field), it is lerped back to its original position.
+/// The button will keep track of its own flipState as it is interacted via <see cref="BeInteracted(UnityEngine.GameObject, object)"/>.
 /// </summary>
 public class PressableButton : SceneButton
 {
@@ -14,7 +23,6 @@ public class PressableButton : SceneButton
 
     bool isAnimPlaying = false;
     Vector3 posBtnVisualInit; // initial position of the visual of the pressable part of the button
-    Vector3 dirBtnVisualInitFwd; // initial forward direction of the visual of the pressable part of the button
 
     /// <summary>
     /// Implementation of the <see cref="SceneButton.BeInteracted(GameObject, object)"/> method.
@@ -75,6 +83,5 @@ public class PressableButton : SceneButton
     void Awake()
     {
         posBtnVisualInit = btnVisual.transform.position;
-        dirBtnVisualInitFwd = btnVisual.transform.forward;
     }
 }

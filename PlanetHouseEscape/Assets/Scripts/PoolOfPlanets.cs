@@ -9,6 +9,9 @@ using UnityEngine;
 /// This class contains the settings for this puzzle.
 /// Since the code uses uniform scale, it is strongly recommended to use unit spheres as planets.
 /// In other words, leave their scales at Vector3.one.
+/// - How to use this script?:
+/// Just create an empty game object, and attach this script. Nothing else is required.
+/// Then, play with the parameters to your liking.
 /// </summary>
 public class PoolOfPlanets : MonoBehaviour
 {

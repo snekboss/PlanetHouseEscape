@@ -3,6 +3,18 @@ using UnityEngine;
 
 /// <summary>
 /// A class which allows the attached the game object to behave like a door.
+/// - How to use this script?:
+/// Create a game object in the scene. Let's assume this game object looks like a door (but it doesn't have to be).
+/// There are two parts of this door: Its visual part, and its collider part.
+/// The script must be attached to the game object which contains the colldier part. Otherwise, the script won't be called.
+/// This is how Unity works.
+/// The door "opening animation" is done via Unity's coroutines.
+/// Since the animation is implemented via code, it requires several frames to work, which is why Unity's coroutines were used, because they're convenient.
+/// Then, configure the parameters to your liking as to how the door should behave:
+/// - Choose a rotation axis about which the door should rotate. It can rotate about the three main axes: X,Y and Z.
+/// - Choose a doorOpenAngle, which acts as the target angle when the door is opened.
+/// - Choose the speed at which the door opens via openSpeed.
+/// - Choose whether or not the door should be locked at the start via unlocked.
 /// </summary>
 public class Door : MonoBehaviour, IInteractable
 {

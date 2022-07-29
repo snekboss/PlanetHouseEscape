@@ -3,6 +3,15 @@ using UnityEngine;
 /// <summary>
 /// A class which designates the attached game object as an ExitDoorLogic.
 /// This class contains the logic of opening the exit door, which in turn finishes the game.
+/// - How does this class work?:
+/// Create a game object which acts as the container of this script.
+/// Since this is a Room Escape game, add a reference to the door which is considered the final exit door.
+/// Then, add a reference to the <see cref="InGameUI"/> instance of your game.
+/// When you want to finish the game and pop up the game over UI, use a <see cref="SceneTrigger"/> to call the <see cref="OnExitDoorTriggerEnter"/>.
+/// This will activate the <see cref="InGameUI"/> instance which should be referenced in this class in the Inpector menu by the user of this script.
+/// It will also call <see cref="Door.BeInteracted(UnityEngine.GameObject, object)"/> on the specified exitDoor.
+/// That's it.
+/// See <see cref="SceneTrigger"/> for more details on how to use it.
 /// </summary>
 public class ExitDoorLogic : MonoBehaviour
 {

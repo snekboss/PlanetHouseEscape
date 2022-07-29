@@ -11,8 +11,17 @@ using UnityEngine;
 /// </summary>
 public class StaticVariables : MonoBehaviour
 {
-    public static float MouseSensitivity = 45f;
-    public static bool loadedForTheFirstTime = true;
+    /// <summary>
+    /// Sensitivity of the player when it uses any kind of rotation.
+    /// </summary>
+    public static float PlayerRotationSensitivity = 45f;
+    /// <summary>
+    /// The global constant which specifies a pickup. If you want your object to be picked up, then its tag should be set to this.
+    /// </summary>
     public const string TagPickup = "Pickup";
+    /// <summary>
+    /// The name of the escape key. It is here because Unity adds suffixes like "(Clone)" to the things it instantiates.
+    /// So this used to force the name back to "EscapeKey".
+    /// </summary>
     public const string EscapeKeyName = "EscapeKey";
 }

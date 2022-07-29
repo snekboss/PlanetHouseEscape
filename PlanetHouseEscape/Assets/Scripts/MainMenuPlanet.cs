@@ -5,6 +5,10 @@ using UnityEngine;
 /// It is recommended to also attach <see cref="Planet"/> onto the same object.
 /// However, instead, it is also enough to just add a <see cref="SphereCollider"/> and a <see cref="Rigidbody"/>.
 /// This class is used for the animation of the planets in the Main Menu.
+/// - How to use this script?:
+/// The MainMenuPlanet objects will do some things when they collide with other objects in the scene.
+/// Those "some things" are: Adding force to themselves in random directions with the specified velocities and angular velocities.
+/// So, choose some values to your liking, and the planets will go off in random directions when they collide with things.
 /// </summary>
 public class MainMenuPlanet : MonoBehaviour
 {

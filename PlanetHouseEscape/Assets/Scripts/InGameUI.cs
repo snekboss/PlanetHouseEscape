@@ -9,6 +9,20 @@ using UnityEngine.UI;
 /// <summary>
 /// A class which designates the attached game object as the InGameUI.
 /// This script contains the logic of the InGameUI.
+/// - How does this script work?:
+/// Well, in short, it works like any other barebones UI script. It just contains methods to call, which you select from the Inspector menu.
+/// This particular script controls the logic of the InGameUI.
+/// The InGameUI is what you see when you are actually playing the game, and not inside some main menu.
+/// The InGameUI is mainly used to pause the game.
+/// - When the game is paused, you can either adjust the mouse sensitivity, or you can go back to the main menu screen.
+/// When you go back to the main menu screen, the player's progress is not saved anywhere.
+/// Meaning, things like "how much progress has the player made in the game" are not saved in the disk, or in memory.
+/// - It can also be used to show the game over screen.
+/// The game over screen is shown when the game is over. Since this is a room escape puzzle game,
+/// the game over screen is only shown when the player manages to escape the room. There's no player death or anything like that.
+/// The game over screen just says "congratulations" and shows how much time has passed since the game scene has started.
+/// This just shows how much time it took for the player to finish the game.
+/// Therefore, if you wish to show the game over screen to the player, just call the <see cref="FinishGame"/> when the game over condition is met.
 /// </summary>
 public class InGameUI : MonoBehaviour
 {
@@ -36,13 +50,13 @@ public class InGameUI : MonoBehaviour
 
     /// <summary>
     /// Callback method for <see cref="sliderMouseSensitivity"/>.
-    /// It is used to adjust <see cref="StaticVariables.MouseSensitivity"/>.
+    /// It is used to adjust <see cref="StaticVariables.PlayerRotationSensitivity"/>.
     /// </summary>
     public void OnSlider_ValueChanged()
     {
         int val = Convert.ToInt32(sliderMouseSensitivity.value);
         txtMouseSensitivity.text = "Mouse Sensitivity: " + val;
-        StaticVariables.MouseSensitivity = val;
+        StaticVariables.PlayerRotationSensitivity = val;
     }
 
     /// <summary>
@@ -105,7 +119,7 @@ public class InGameUI : MonoBehaviour
     void InitInGameUI()
     {
         // Init pause menu
-        sliderMouseSensitivity.value = StaticVariables.MouseSensitivity;
+        sliderMouseSensitivity.value = StaticVariables.PlayerRotationSensitivity;
         OnSlider_ValueChanged();
 
         isGamePaused = false;

@@ -2,6 +2,12 @@ using UnityEngine;
 
 /// <summary>
 /// Interface of the game objects which are interactable by the player.
+/// - How to use this script?:
+/// Since this is an interface, it cannot be added to any game object as a component.
+/// However, you can implement this interface on classes to which you deem interactable.
+/// Just make sure that the game object contains a collider as well as your class, otherwise the player won't be able to interact with it.
+/// After you implement the interface, your class will be considered an IInteractable, and the player will automatically detect and interact with it
+/// when the player presses the interact button.
 /// </summary>
 public interface IInteractable
 {

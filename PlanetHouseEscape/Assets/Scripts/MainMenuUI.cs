@@ -9,6 +9,25 @@ using TMPro;
 /// <summary>
 /// A class which designates the attached game object as the MainMenuUI.
 /// This script contains the logic of the Main Menu UI.
+/// - How to use this script?:
+/// Well, in short, it works like any other barebones UI script. It just contains methods to call, which you select from the Inspector menu.
+/// This particular script controls the logic of the MainMenuUI.
+/// The main menu UI consists of 3 parts:
+/// - 1) The main menu part: This is what the player sees when they first start the game.
+/// This part of the menu contains buttons like "Start Game", "Controls", "Hints", "Exit Game".
+/// "Start Game" literally starts the game by loading the game scene.
+/// "Exit Game" closes the application (how about that?).
+/// "Controls" opens the controls menu, by hiding the visibility of every other UI element.
+/// "Hints" opens the hints menu, by hiding the visibility of every other UI element.
+/// - 2) Controls menu part: This is where the player can see how to control themselves once the game actually starts.
+/// It also contains a slider to change the mouse sensitivity.
+/// Finally, there's a "Go Back" button which navigates back to the main menu part.
+/// - 3) Hints menu part: This is where the player see a text which contains some hints as to how to beat the game.
+/// It contains a lot of spoilers.
+/// It also contains the same "Go Back" button which navigates back to the main menu part.
+/// -
+/// - This script also contains a reference to the mainCamera of the scene.
+/// Because the UI is fancy, and it rotates around slowly as the planets crash onto one another.
 /// </summary>
 public class MainMenuUI : MonoBehaviour
 {
@@ -40,7 +59,7 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnClick_ButtonStartGame()
     {
-        StaticVariables.MouseSensitivity = sliderMouseSensitivity.value;
+        StaticVariables.PlayerRotationSensitivity = sliderMouseSensitivity.value;
         Time.timeScale = 1;
         InGameUI.isGameOver = false;
         InGameUI.isGamePaused = false;
@@ -98,13 +117,13 @@ public class MainMenuUI : MonoBehaviour
 
     /// <summary>
     /// Callback method for <see cref="sliderMouseSensitivity"/>.
-    /// It is used to adjust <see cref="StaticVariables.MouseSensitivity"/>.
+    /// It is used to adjust <see cref="StaticVariables.PlayerRotationSensitivity"/>.
     /// </summary>
     public void OnSlider_ValueChanged()
     {
         int val = Convert.ToInt32(sliderMouseSensitivity.value);
         txtMouseSensitivity.text = "Mouse Sensitivity: " + val;
-        StaticVariables.MouseSensitivity = val;
+        StaticVariables.PlayerRotationSensitivity = val;
     }
 
     /// <summary>
@@ -118,7 +137,7 @@ public class MainMenuUI : MonoBehaviour
 
         btnGoBack.gameObject.SetActive(false);
 
-        sliderMouseSensitivity.value = StaticVariables.MouseSensitivity;
+        sliderMouseSensitivity.value = StaticVariables.PlayerRotationSensitivity;
 
         OnSlider_ValueChanged();
     }

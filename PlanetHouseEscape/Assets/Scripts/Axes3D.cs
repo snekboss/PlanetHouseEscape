@@ -5,6 +5,11 @@ using UnityEngine;
 /// <summary>
 /// The component of the 3D Axes game object which the Player controls.
 /// It is used to help indicate which rotation axis is being used to rotate the pickup object.
+/// It is supposed to be an alternative to Unity's LineRenderer, because that one has some unnecessary complexity to it.
+/// - This class works in the following way:
+/// The script is attached to a game object which is supposed to act like a 3D coordinate axes.
+/// The player gets a reference to that game object.
+/// The player makes the axes game object visible whenever it decides to do so (which happens while rotating a pickup object).
 /// </summary>
 public class Axes3D : MonoBehaviour
 {

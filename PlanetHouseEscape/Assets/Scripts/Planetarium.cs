@@ -5,6 +5,17 @@ using UnityEngine;
 /// <summary>
 /// A class which designates the attached object as a Planetarium.
 /// The planetarium is the final puzzle where all the planets are gathered, and the exit key is dropped.
+/// - How to use this script?:
+/// Create a game object which is supposed to be your Planetarium.
+/// It should have 2 different parts:
+/// - 1) The visuals
+/// - 2) The collider
+/// -
+/// - 1) The visuals is where the planet visuals should be put, so that they can be shown gradually as the player throws each planet into the collider.
+/// - 2) The collider is about detecting which planets actually are thrown into the planetarium by the player.
+/// - 
+/// - In this script, the planetNames must match <see cref="Planet.PlanetName"/>, so be careful about that.
+/// However, throughout the project, a convention of using uppercase names was used via <see cref="System.String.ToUpper"/>.
 /// </summary>
 public class Planetarium : MonoBehaviour
 {

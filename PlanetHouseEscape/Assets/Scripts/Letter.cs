@@ -5,6 +5,16 @@ using UnityEngine;
 /// <summary>
 /// A class which designates the attached game object as a Letter.
 /// Used for the LetterEater puzzle.
+/// - How to use this script?:
+/// Well, Letters are pickup objects, so this script only contains data that describes a Letter object.
+/// The only code it contains is to load the Letter prefabs into the memory,
+/// and reference it via <see cref="AlphabetPrefabs"/>, which is a singleton field.
+/// The script automatically adds a BoxCollider and a Rigidbody if the user of the script does not add those things in the Inspector menu.
+/// However, if you wish to add a custom weight to the rigidbody, then you're going to need to add your own rigidbody in the inspector menu,
+/// and set the weight yourself.
+/// The only thing this script does in terms of physics is to force it to use gravity, and not let it be kinematic.
+/// Finally, the script sets the scale of the object in the scene using the constants scaleX, scaleY and scaleZ.
+/// You can change those constant values to your liking, but the current values seem to work well.
 /// </summary>
 public class Letter : MonoBehaviour
 {
