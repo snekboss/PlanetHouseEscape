@@ -97,20 +97,15 @@ public class InGameUI : MonoBehaviour
 
     /// <summary>
     /// Toggles the visibility of the mouse cursor.
+    /// Also, in WebGL mode, it locks the cursor to the center of the screen when the cursor is not visible.
     /// </summary>
     /// <param name="show">True if the mouse cursor should be visible; false otherwise.</param>
     void ToggleMouse(bool show)
     {
-        if (show)
-        {
-            //UnityEngine.Cursor.lockState = CursorLockMode.Confined;
-            UnityEngine.Cursor.visible = true;
-        }
-        else
-        {
-            //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            UnityEngine.Cursor.visible = false;
-        }
+        Cursor.visible = show;
+#if (UNITY_WEBGL)
+            Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
+#endif
     }
 
     /// <summary>
