@@ -134,21 +134,35 @@ public class MainMenuUI : MonoBehaviour
         StaticVariables.PlayerRotationSensitivity = val;
     }
 
+    /// <summary>
+    /// Event to increase the Quality setting.
+    /// </summary>
     public void OnClick_ButtonIncreaseQuality() 
     {
         QualitySettings.IncreaseLevel(true);
         UpdateQualitySettingWidgets();
     }
+
+    /// <summary>
+    /// Event to decrease the Quality setting.
+    /// </summary>
     public void OnClick_ButtonDecreaseQuality() 
     {
         QualitySettings.DecreaseLevel(true);
         UpdateQualitySettingWidgets();
     }
+
+    /// <summary>
+    /// Event for the Default Quality selection button.
+    /// </summary>
     public void OnClick_ButtonDefaultQuality() 
     {
         SetDefaultQuality();
     }
 
+    /// <summary>
+    /// Updates the Quality Setting related widgets.
+    /// </summary>
     void UpdateQualitySettingWidgets()
     {
         int index = QualitySettings.GetQualityLevel();
@@ -158,6 +172,10 @@ public class MainMenuUI : MonoBehaviour
 
         txtChosenQuality.text = QualitySettings.names[index];
     }
+
+    /// <summary>
+    /// Sets the Quality Setting to the default one described in <see cref="StaticVariables.QualitySetting"/>.
+    /// </summary>
     void SetDefaultQuality()
     {
         QualitySettings.SetQualityLevel(StaticVariables.DefaultQualitySetting, true);
