@@ -107,6 +107,9 @@ public class MainMenuUI : MonoBehaviour
     public void OnClick_ButtonExitGame()
     {
         Application.Quit();
+#if (UNITY_WEBGL)
+        Application.OpenURL("about:blank");
+#endif
     }
 
     /// <summary>
