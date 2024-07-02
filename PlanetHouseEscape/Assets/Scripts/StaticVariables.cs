@@ -24,4 +24,23 @@ public class StaticVariables : MonoBehaviour
     /// So this used to force the name back to "EscapeKey".
     /// </summary>
     public const string EscapeKeyName = "EscapeKey";
+
+    /// <summary>
+    /// These are in sync with Unity's <see cref="QualitySettings.names"/>.
+    /// </summary>
+    enum QualitySetting
+    {
+        VeryLow = 0,
+        Low,
+        Medium,
+        High,
+        VeryHigh,
+        Ultra,
+    }
+
+    /// <summary>
+    /// The default quality setting.
+    /// See also: <see cref="QualitySetting"/>.
+    /// </summary>
+    public static int DefaultQualitySetting = (int)(QualitySetting.High);
 }

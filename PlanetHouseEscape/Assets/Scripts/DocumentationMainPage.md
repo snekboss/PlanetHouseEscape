@@ -10,59 +10,14 @@ This page mainly contains the instructions for end users as to installing and pl
 
 \section install_sec For End Users: Installation
 
-\section archived_files Working with Archived Files
-
-To install the game, you're going to need a program which can extract an archived .zip file.
-Most machines nowadays come with operating systems which already include such programs.
-However, in case you do not have a program which can work on an archived .zip file, I recommend installing 7zip first.
-
-- Here is a link to their download page: https://www.7-zip.org/ .
-
-The installation instructions written here will assume that the user has 7zip installed.
-
-After making sure you have means of working with an archived file, follow the rest of the instructions below.
 
 \section install_steps Installation Steps
 
 Visit the download page of the game: https://bigsnack.itch.io/planet-house-escape
 
-There are 3 files:
-- Build (Ultra).zip
-- Build (Medium).zip
-- Build (Lowest).zip
-
-These are all the same game. However, the word in the parentheses represents the graphics settings.
-In other words, Ultra will have the highest graphics settings; while Lowest will have the lowest graphics settings
-(The reason for the unfriendliness behind the downloads will be explained later below).
-
-Download one of the .zip files to your preference, and then follow the instructions below:
-
-- Once you've downloaded the .zip file, right click on it. A context menu will open.
-- In the context menu, look for "7-Zip", and click on it.
-- Once clicked, a new menu will appear. Select "Extract Here".
-- At this point, allow 7zip to work on extracting the archived file.
-- When it is done, you'll see a new folder with the same name as the .zip file. However, this folder does not have a .zip extension.
-- Double click on this new folder.
-- You will see an executable file named "PlanetHouseEscape.exe". Double click on this, and the game will run.
-- Once the game running, you can take a look at the controls of the game from the main menu.
-- Enjoy!
-
-
-
-
-
-
-
-\section explanation The Reason Behind the Unfriendliness of the Downloads
-
-It is due to the decisions behind the developers of the Unity game engine.
-Unity Engine used to have a pre-made default configuration menu at the start of the game, which allowed you to choose graphics settings.
-It looks like they removed this default option, and I realized this until it was too late, so this is a band-aid solution.
-The alternative is to actually prepare an in-game graphics menu, which is outside the coverage of this university project.
-
-
-
-
+Download the zipped file and extract its contents.
+Find the executable named "PlanetHouseEscape" in the extracted folder.
+Double click on the executable to play.
 
 \section controls Controls of the Game
 
@@ -97,6 +52,14 @@ Good luck.
 
 
 
+\section credits Credits
+
+=> The programming and developed of this game was made by Ogulhan Bozkir (me). I combined Unity's primitive geometric shapes to create the visuals.
+
+=> Thanks to "(Unity) Better Minimal WebGL Template" by Sean, which allows the game window to be nicely resized based on the browser's window dimensions: https://seansleblanc.itch.io/better-minimal-webgl-template
+
+
+
 
 \section hints Hints to Beat the Game
 
@@ -116,3 +79,4 @@ Good luck.
 - Try turning off the lights in the bedroom.
 - The letter eating machine is hungry for the 80th chemical element.
 - The "parkour room" contains a planet which is too far out of reach. Try picking up and rotating the logs below the room to get across.
+

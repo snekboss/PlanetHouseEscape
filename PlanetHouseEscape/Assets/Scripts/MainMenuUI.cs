@@ -44,10 +44,18 @@ public class MainMenuUI : MonoBehaviour
     public Button btnExitGame;
     public Button btnGoBack;
 
+    public Button btnIncreaseQuality;
+    public Button btnDecreaseQuality;
+    public Button btnDefaultQuality;
+
+    public TextMeshProUGUI txtChosenQuality;
+
     public GameObject mainCamera;
 
     [Range(-180f, 180f)]
     public float camRotPerSecond = 6f;
+
+    static bool isLoadingForTheFirstTime = true;
 
     // Spawn planets
     public Vector3 planetSpawnPosMinVec;
@@ -126,6 +134,37 @@ public class MainMenuUI : MonoBehaviour
         StaticVariables.PlayerRotationSensitivity = val;
     }
 
+    public void OnClick_ButtonIncreaseQuality() 
+    {
+        QualitySettings.IncreaseLevel(true);
+        UpdateQualitySettingWidgets();
+    }
+    public void OnClick_ButtonDecreaseQuality() 
+    {
+        QualitySettings.DecreaseLevel(true);
+        UpdateQualitySettingWidgets();
+    }
+    public void OnClick_ButtonDefaultQuality() 
+    {
+        SetDefaultQuality();
+    }
+
+    void UpdateQualitySettingWidgets()
+    {
+        int index = QualitySettings.GetQualityLevel();
+
+        btnDecreaseQuality.interactable = (index != 0);
+        btnIncreaseQuality.interactable = (index != (QualitySettings.names.Length - 1));
+
+        txtChosenQuality.text = QualitySettings.names[index];
+    }
+    void SetDefaultQuality()
+    {
+        QualitySettings.SetQualityLevel(StaticVariables.DefaultQualitySetting, true);
+
+        UpdateQualitySettingWidgets();
+    }
+
     /// <summary>
     /// Initializes the Main Menu UI.
     /// </summary>
@@ -138,6 +177,16 @@ public class MainMenuUI : MonoBehaviour
         btnGoBack.gameObject.SetActive(false);
 
         sliderMouseSensitivity.value = StaticVariables.PlayerRotationSensitivity;
+
+        if (isLoadingForTheFirstTime)
+        {
+            SetDefaultQuality();
+            isLoadingForTheFirstTime = false;
+        }
+        else
+        {
+            UpdateQualitySettingWidgets();
+        }
 
         OnSlider_ValueChanged();
     }
